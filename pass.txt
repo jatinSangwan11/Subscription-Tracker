@@ -1,0 +1,49 @@
+*********** NOTES ****************
+
+mongodb pass- jatinsangwan
+
+
+in mongodb we have the db--> collection which is lowercase and plural(users) -> documents which are individual entries in the db 
+and we export User = mongoose.mode(name of the model, schema);
+
+From the above we will be able to do: User.findOne(....)
+
+###### foreign key type concept in MongoDb #############
+
+user: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'User',
+  required: true
+}
+ in the above schema -- this concept is similar to the foreign key , but here we store the **** _id  ***** ,which is of the User model 
+ --> which depicts that the this field will store the _id of another document of the model 'User'
+
+ {
+  name: "Netflix",
+  user: ObjectId("661ae8f...") // Points to a User document
+}
+
+
+####### MiddleWare #######
+
+| Feature         | Mongoose Middleware                            | Express Middleware                                |
+| --------------- | ---------------------------------------------- | ------------------------------------------------- |
+| Used for        | DB document lifecycle                          | HTTP request/response lifecycle                   |
+| Example methods | `pre('save')`, `post('find')`, `pre('delete')` | `app.use()`, `app.get()`, `req, res, next`        |
+| Scope           | Works inside Mongoose models                   | Works globally on routes/APIs                     |
+| Accesses        | Mongoose docs (`this`)                         | HTTP req/res objects                              |
+| Common uses     | Hash password, validate, transform data        | Auth check, body parsing, logging, error handling |
+
+
+
+###### Date Object modification #####
+
+this.renewalDate.setDate(
+  this.renewalDate.getDate() + renewalPeriod[this.frequency]
+);
+
+this.renewalDate.getDate() returns the day of the month (e.g., 5 for June 5).
+
++ renewalPeriod[this.frequency] adds the number of days (e.g., +30 if monthly).
+
+setDate(...) updates the date accordingly. It handles month/year rollover automatically.
