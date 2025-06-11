@@ -6,6 +6,7 @@ import subscriptionRouter from "./routes/subscription.routes.js";
 import userRouter from "./routes/user.routes.js";
 import connectToDatabase from "./database/mongodb.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
+import cookieParser from "cookie-parser";
 
 // dotenv.config();
 
@@ -16,6 +17,8 @@ const app = express();
 
 // generally app.use is used for middlewares
 app.use(express.json());
+app.use(cookieParser());
+
 
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/users', userRouter)
