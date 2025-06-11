@@ -4,7 +4,7 @@ mongodb pass- jatinsangwan
 
 
 in mongodb we have the db--> collection which is lowercase and plural(users) -> documents which are individual entries in the db 
-and we export User = mongoose.mode(name of the model, schema);
+and we export User = mongoose.mode(name of the model, schema);  we use this User on our server 
 
 From the above we will be able to do: User.findOne(....)
 
