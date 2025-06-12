@@ -59,6 +59,46 @@ export const signUp = async (req, res, next) => {
 
 export const signIn = async (req, res, next) => {
     // Implement the signIn logic
+    try {
+        const {email, password} = req.body;
+
+        //check if our user exists
+        const checkUserExist = await User.findOne({email})
+        console.log(checkUserExist);  // Debugging line to check user existence
+        if(!checkUserExist) {
+            const err = new Error("User does not exist");
+            err.statusCode = 404;
+            throw err;
+        }
+
+        //check if the password is correct
+        const isPasswordCorrect = await bcrypt.compare(password, checkUserExist.password);
+
+        if(!isPasswordCorrect) {
+            const err = new Error("Incorrect password");
+            err.statusCode = 401;
+            throw err;
+        }
+
+        //if the user exists and the password is correct, we can generate a token
+
+        const token = jwt.sign({userId: checkUserExist._id}, JWT_SECRET, {expiresIn: JWT_EXPIRY});
+
+        res.status(200).json({
+            success: true,
+            message: "User signed in successfully",
+            data: {
+                token,
+                user: {
+                    id: checkUserExist._id,
+                    name: checkUserExist.name,
+                    email: checkUserExist.email
+                }
+            }
+        })
+    } catch (error) {
+        next(error)
+    }
 }
 
 
