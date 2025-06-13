@@ -47,3 +47,34 @@ this.renewalDate.getDate() returns the day of the month (e.g., 5 for June 5).
 + renewalPeriod[this.frequency] adds the number of days (e.g., +30 if monthly).
 
 setDate(...) updates the date accordingly. It handles month/year rollover automatically.
+
+
+#### scalability ######
+
+-> always have a custom error handler as it saves us hours of debugging
+
+
+
+#### mongoose transcation #####
+
+A Mongoose transaction is a way to safely perform multiple MongoDB operations as a single unit, so that either all of them succeed or none of them do.
+This ensures data consistency — especially important in financial systems, game states, or anything involving multiple updates at once.
+
+Example: 
+              const session = await mongoose.startSession();
+              try {
+                session.startTransaction();
+
+                await User.updateOne({ _id: userId }, { $inc: { chips: -100 } }, { session });
+                await GameLog.create([{ userId, gameId, result: 'lost' }], { session });
+                await User.updateOne({ _id: winnerId }, { $inc: { chips: 100 } }, { session });
+
+                await session.commitTransaction();
+              } catch (err) {
+                await session.abortTransaction();
+                console.error("Transaction failed:", err);
+              } finally {
+                session.endSession();
+              }
+
+start a session --> make the multiple operations as the part of the same session --> if success then commit the transcation --> else abort -> end session
