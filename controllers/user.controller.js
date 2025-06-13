@@ -1,10 +1,9 @@
-import mongoose from "mongoose";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 
-export const getUsers = async (req, res, next) => {   
+export const getUsers = async (req, res, next) => {
     try {
-        const users = await User.find(); 
+        const users = await User.find();
         res.status(200).json({
             success: true,
             message: "Users retrieved successfully",
@@ -34,4 +33,27 @@ export const getUser = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+}
+
+export const createUser = async (req, res, next) => {
+    // I have to create a user --> I will be needing name, email, password 
+    try {
+        const { name, email, password } = req.body;
+        const salt = bcrypt.genSalt(10);
+        const hashedPassword = bcrypt.hash(password, salt);
+        const newUser = await User.create({ name, email, hashedPassword });
+        console.log("new user created:", newUser);
+        res.status(201).json({
+            success: true,
+            message: "New user created",
+            data: {
+                id: newUser[0]._id,
+                email: newUser[0].email,
+                name: newUser[0].name
+            }
+        })
+    } catch (error) {
+        next(error);
+    }
+
 }

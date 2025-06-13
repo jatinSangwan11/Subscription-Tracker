@@ -1,5 +1,7 @@
 import { Router } from "express";
-import { getUser, getUsers } from "../controllers/user.controller.js";
+import { getUser, getUsers, createUser } from "../controllers/user.controller.js";
+import authorize from "../middlewares/auth.middleware.js";
+
 
 const userRouter = Router();
 
@@ -8,13 +10,11 @@ const userRouter = Router();
 
 // /api/v1/users
 
-userRouter.get ('/', getUsers)
+userRouter.get ('/', getUsers)  // prevent users to make a call here as it would expose all the users to anybody 
 
-userRouter.get('/:id', getUser)
+userRouter.get('/:id',authorize ,getUser)
 
-userRouter.post ('/', (req, res) => {
-    res.json({message: "create new user"})
-})
+userRouter.post ('/', createUser)
 
 userRouter.put('/:id', (req ,res) => {
     res.json({message: "update user with the user Id"})
@@ -22,7 +22,7 @@ userRouter.put('/:id', (req ,res) => {
 
 userRouter.delete('/:id', (req ,res) => {
     res.json({message: "delete user with the user Id"})
-})
-
+}) 
+ 
 
 export default userRouter;
