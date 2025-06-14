@@ -52,7 +52,7 @@ setDate(...) updates the date accordingly. It handles month/year rollover automa
 #### scalability ######
 
 -> always have a custom error handler as it saves us hours of debugging
-
+-> one of the most interesting thing is rate limiter used in config/arcjet.js. -- here for rate limiting I am using token bucket algorithm 
 
 
 #### mongoose transcation #####
@@ -78,3 +78,4 @@ Example:
               }
 
 start a session --> make the multiple operations as the part of the same session --> if success then commit the transcation --> else abort -> end session
+
