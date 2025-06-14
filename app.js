@@ -19,7 +19,7 @@ const app = express();
 // generally app.use is used for middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(arcjetMiddleware);
+// app.use(arcjetMiddleware);
 
 
 app.use('/api/v1/auth', authRouter)
