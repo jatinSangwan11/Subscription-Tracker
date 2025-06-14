@@ -79,3 +79,7 @@ Example:
 
 start a session --> make the multiple operations as the part of the same session --> if success then commit the transcation --> else abort -> end session
 
+######### Most interesting part of the project #########
+
+
+Triggering email reminders in order to remind the user of the renewal date, so that we can turn off our subscription on time
